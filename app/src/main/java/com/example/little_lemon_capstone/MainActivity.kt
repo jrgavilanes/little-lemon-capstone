@@ -11,9 +11,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.little_lemon_capstone.helpers.checkUserRegistered
 import com.example.little_lemon_capstone.screens.HomeScreen
 import com.example.little_lemon_capstone.screens.OnBoardingScreen
 import com.example.little_lemon_capstone.screens.ProfileScreen
@@ -39,6 +41,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun LittleLemonApp(modifier: Modifier) {
+
+    val context = LocalContext.current
 
     val navController = rememberNavController()
 
@@ -72,6 +76,12 @@ fun LittleLemonApp(modifier: Modifier) {
                         popUpTo(0) { inclusive = true }
                     } // Delete backstack
                 })
+        }
+    }
+
+    if (checkUserRegistered(context)) {
+        navController.navigate("home") {
+            popUpTo(0) { inclusive = true }
         }
     }
 

@@ -16,13 +16,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.little_lemon_capstone.R
+import com.example.little_lemon_capstone.helpers.logoutUser
 
 @Composable
 fun ProfileScreen(modifier: Modifier, onNavigateToOnboarding: () -> Unit) {
+    val context = LocalContext.current
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -40,9 +44,10 @@ fun ProfileScreen(modifier: Modifier, onNavigateToOnboarding: () -> Unit) {
             colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.my_yellow)), // Color amarillo de fondo
             shape = RoundedCornerShape(corner = CornerSize(8.dp)),
             onClick = {
+                logoutUser(context)
                 onNavigateToOnboarding()
             }) {
-            Text(text = "Next", color = Color.DarkGray, fontWeight = FontWeight.Bold)
+            Text(text = "Logout User", color = Color.DarkGray, fontWeight = FontWeight.Bold)
         }
     }
 }
