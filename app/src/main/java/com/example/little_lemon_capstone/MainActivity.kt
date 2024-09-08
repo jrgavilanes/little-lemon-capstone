@@ -70,7 +70,7 @@ fun LittleLemonApp(modifier: Modifier) {
                 onNavigateToOnboarding = {
                     navController.navigate("onboarding") {
                         popUpTo(0) { inclusive = true }
-                    } // Borra el backstack y hace que no se pueda volver atrás
+                    } // Delete backstack
                 })
         }
     }
