@@ -8,12 +8,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.little_lemon_capstone.screens.HomeScreen
 import com.example.little_lemon_capstone.screens.OnBoardingScreen
+import com.example.little_lemon_capstone.screens.ProfileScreen
 import com.example.little_lemon_capstone.ui.theme.LittlelemoncapstoneTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,14 +30,7 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(Color.White)
                 ) { innerPadding ->
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-//                    OnboardingScreen(modifier = Modifier.padding(innerPadding))
-//                    HomeScreen()
-//                    ProfileScreen()
-                    OnBoardingScreen(modifier = Modifier.padding(innerPadding))
+                    LittleLemonApp(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -42,20 +38,47 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun LittleLemonApp(modifier: Modifier) {
+
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = "onboarding") {
+
+        composable("onboarding") {
+            OnBoardingScreen(modifier = modifier,
+                onNavigateToHome = {
+                    navController.navigate("home") {
+                        popUpTo("onboarding") {
+                            inclusive = true
+                        } // Borra la pantalla de Onboarding del backstack
+                    }
+                }
+            )
+        }
+
+        composable("home") {
+            HomeScreen(modifier = modifier,
+                onNavigateToProfile = {
+                    navController.navigate("profile")
+                }
+            )
+        }
+
+        composable("profile") {
+            ProfileScreen(
+                modifier = modifier,
+                onNavigateToOnboarding = {
+                    navController.navigate("onboarding") {
+                        popUpTo(0) { inclusive = true }
+                    } // Borra el backstack y hace que no se pueda volver atrás
+                })
+        }
+    }
+
+
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    LittlelemoncapstoneTheme {
-        Greeting("Android")
-    }
-}
+
 
 
 

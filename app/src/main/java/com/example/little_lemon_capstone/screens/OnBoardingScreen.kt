@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import com.example.little_lemon_capstone.R
 
 @Composable
-fun OnBoardingScreen(modifier: Modifier) {
+fun OnBoardingScreen(modifier: Modifier, onNavigateToHome: () -> Unit) {
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -43,7 +43,6 @@ fun OnBoardingScreen(modifier: Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(0.dp)
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
@@ -127,7 +126,7 @@ fun OnBoardingScreen(modifier: Modifier) {
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.my_yellow)), // Color amarillo de fondo
                 shape = RoundedCornerShape(corner = CornerSize(8.dp)),
                 onClick = {
-                    // Acción cuando el botón es presionado, por ejemplo, validar o navegar a otra pantalla
+                    onNavigateToHome()
                 }) {
                 Text(text = "Register", color = Color.DarkGray, fontWeight = FontWeight.Bold)
             }
