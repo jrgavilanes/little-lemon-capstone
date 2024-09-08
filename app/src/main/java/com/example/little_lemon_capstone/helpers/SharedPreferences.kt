@@ -13,6 +13,15 @@ fun saveUserData(context: Context, firstName: String, lastName: String, email: S
     }
 }
 
+fun getUserData(context: Context): Triple<String, String, String> {
+    val sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+    val firstName = sharedPreferences.getString("first_name", "") ?: ""
+    val lastName = sharedPreferences.getString("last_name", "") ?: ""
+    val email = sharedPreferences.getString("email", "") ?: ""
+
+    return Triple(firstName, lastName, email)
+}
+
 fun checkUserRegistered(context: Context): Boolean {
     val sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
     val firstName = sharedPreferences.getString("first_name", null)
