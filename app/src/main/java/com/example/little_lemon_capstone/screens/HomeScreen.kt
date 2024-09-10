@@ -3,26 +3,27 @@ package com.example.little_lemon_capstone.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -42,9 +43,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.little_lemon_capstone.AppDatabase
 import com.example.little_lemon_capstone.MenuItemRoom
 import com.example.little_lemon_capstone.R
@@ -74,11 +75,6 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
     ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.logo),
-//            contentDescription = "logo",
-//            modifier = Modifier.padding(50.dp)
-//        )
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -121,9 +117,11 @@ fun HomeScreen(
                 fontSize = 24.sp,
                 color = Color.White,
             )
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp)) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(150.dp)
+            ) {
                 Text(
                     modifier = Modifier
                         .weight(1f)
@@ -147,7 +145,6 @@ fun HomeScreen(
                 onValueChange = { newText ->
                     searchPhrase = newText
                 },
-//                label = { Text("Search") },
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = {
                     Icon(
@@ -167,23 +164,107 @@ fun HomeScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
+        Text(
+            text = "ORDER FOR DELIVERY",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp
+        )
 
-        // add Button code here
-        Button(
-            onClick = {
-                orderMenuItems = databaseMenuItems?.sortedBy { it.title } ?: emptyList()
-            },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+        Spacer(modifier = Modifier.height(8.dp))
+
+        val scrollState = rememberScrollState()
+
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .horizontalScroll(scrollState)
         ) {
-            Text("Tap to order by name")
+            Button(
+                onClick = {
+                    orderMenuItems = databaseMenuItems?.sortedBy { it.title } ?: emptyList()
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.LightGray, // Fondo gris clarito
+                    contentColor = Color.DarkGray // Color del texto (gris oscuro)
+                ),
+                modifier = Modifier.padding(0.dp),
+            ) {
+                Text(
+                    text = "Starters",
+                    fontWeight = FontWeight.Bold, // Texto en negrita (bold)
+                    fontSize = 16.sp,
+                    color = Color.DarkGray // Asegura que el color del texto sea gris oscuro
+                )
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+            Button(
+                onClick = {
+                    orderMenuItems = databaseMenuItems?.sortedBy { it.title } ?: emptyList()
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.LightGray, // Fondo gris clarito
+                    contentColor = Color.DarkGray // Color del texto (gris oscuro)
+                ),
+                modifier = Modifier.padding(0.dp),
+            ) {
+                Text(
+                    text = "Mains",
+                    fontWeight = FontWeight.Bold, // Texto en negrita (bold)
+                    fontSize = 16.sp,
+                    color = Color.DarkGray // Asegura que el color del texto sea gris oscuro
+                )
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+            Button(
+                onClick = {
+                    orderMenuItems = databaseMenuItems?.sortedBy { it.title } ?: emptyList()
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.LightGray, // Fondo gris clarito
+                    contentColor = Color.DarkGray // Color del texto (gris oscuro)
+                ),
+                modifier = Modifier.padding(0.dp),
+            ) {
+                Text(
+                    text = "Desserts",
+                    fontWeight = FontWeight.Bold, // Texto en negrita (bold)
+                    fontSize = 16.sp,
+                    color = Color.DarkGray // Asegura que el color del texto sea gris oscuro
+                )
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+            Button(
+                onClick = {
+                    orderMenuItems = databaseMenuItems?.sortedBy { it.title } ?: emptyList()
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.LightGray, // Fondo gris clarito
+                    contentColor = Color.DarkGray // Color del texto (gris oscuro)
+                ),
+                modifier = Modifier.padding(0.dp),
+            ) {
+                Text(
+                    text = "Drinks",
+                    fontWeight = FontWeight.Bold, // Texto en negrita (bold)
+                    fontSize = 16.sp,
+                    color = Color.DarkGray // Asegura que el color del texto sea gris oscuro
+                )
+            }
+
         }
 
+        HorizontalDivider(
+            modifier = Modifier.padding(16.dp), // Opcional: Padding alrededor de la línea
+            thickness = 1.dp,   // Grosor de la línea
+            color = Color.Gray // Color de la línea
+        )
 
-
-
-        // add is not empty check here
+        Spacer(modifier = Modifier.height(8.dp))
 
         menuItems = orderMenuItems.ifEmpty {
             databaseMenuItems ?: emptyList()
@@ -200,53 +281,59 @@ fun HomeScreen(
         }
     }
 
-//    Column(
-//        modifier = modifier
-//            .fillMaxSize()
-//            .background(Color.White),
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        verticalArrangement = Arrangement.Center
-//    ) {
-//
-//        Text(text = "Home nuevax")
-//
-//        Button(modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(32.dp)
-//            .height(50.dp),
-//            colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.my_yellow)), // Color amarillo de fondo
-//            shape = RoundedCornerShape(corner = CornerSize(8.dp)),
-//            onClick = {
-//                onNavigateToProfile()
-//            }) {
-//            Text(text = "Next", color = Color.DarkGray, fontWeight = FontWeight.Bold)
-//        }
-//    }
 }
 
 @Composable
 private fun MenuItemsList(items: List<MenuItemRoom>) {
     LazyColumn(
-        modifier = Modifier
-            .fillMaxHeight()
-            .padding(top = 20.dp)
+//        modifier = Modifier
+//            .fillMaxHeight()
+//            .padding(top = 20.dp)
     ) {
+
         items(
             items = items,
             itemContent = { menuItem ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(menuItem.title)
-                    Text(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(5.dp),
-                        textAlign = TextAlign.Right,
-                        text = "%.2f".format(menuItem.price)
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)){
+                    Text(text = menuItem.title, fontWeight = FontWeight.Bold)
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        Column(modifier = Modifier.weight(2f)) {
+                            Text(text = menuItem.description)
+                            Text(text = "$${menuItem.price}" )
+                        }
+                        Spacer(modifier = Modifier.width(2.dp))
+//                        Text(text = menuItem.image)
+                        AsyncImage(
+                            model = menuItem.image,
+                            contentDescription = "Image from URL",
+                            modifier = Modifier
+                                .weight(1f)
+//                                .size(128.dp) // Tamaño de la imagen
+                                .clip(RoundedCornerShape(8.dp)), // Opcional: bordes redondeados
+                            contentScale = ContentScale.Crop // Cómo ajustar la imagen dentro del contenedor
+                        )
+                    }
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 8.dp), // Opcional: Padding alrededor de la línea
+                        thickness = 1.dp,   // Grosor de la línea
+                        color = Color.LightGray // Color de la línea
                     )
                 }
+//                Row(
+//                    modifier = Modifier.fillMaxWidth(),
+//                    verticalAlignment = Alignment.CenterVertically,
+//                ) {
+//                    Text(menuItem.title)
+//                    Text(
+//                        modifier = Modifier
+//                            .weight(1f)
+//                            .padding(5.dp),
+//                        textAlign = TextAlign.Right,
+//                        text = "%.2f".format(menuItem.price)
+//                    )
+//                }
             }
         )
     }
