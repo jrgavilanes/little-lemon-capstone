@@ -66,6 +66,7 @@ fun HomeScreen(
     var menuItems by remember { mutableStateOf<List<MenuItemRoom>>(emptyList()) }
 
     var searchPhrase by remember { mutableStateOf("") }
+    var filterCategory by remember { mutableStateOf("") }
 
 
     Column(
@@ -144,6 +145,7 @@ fun HomeScreen(
                 value = searchPhrase,
                 onValueChange = { newText ->
                     searchPhrase = newText
+                    filterCategory = ""
                 },
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = {
@@ -186,7 +188,9 @@ fun HomeScreen(
         ) {
             Button(
                 onClick = {
-                    orderMenuItems = databaseMenuItems?.sortedBy { it.title } ?: emptyList()
+//                    orderMenuItems = databaseMenuItems?.sortedBy { it.title } ?: emptyList()
+                    searchPhrase = ""
+                    filterCategory = "Starters"
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.LightGray, // Fondo gris clarito
@@ -204,7 +208,8 @@ fun HomeScreen(
             Spacer(modifier = Modifier.width(16.dp))
             Button(
                 onClick = {
-                    orderMenuItems = databaseMenuItems?.sortedBy { it.title } ?: emptyList()
+                    searchPhrase = ""
+                    filterCategory = "Mains"
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.LightGray, // Fondo gris clarito
@@ -222,7 +227,8 @@ fun HomeScreen(
             Spacer(modifier = Modifier.width(16.dp))
             Button(
                 onClick = {
-                    orderMenuItems = databaseMenuItems?.sortedBy { it.title } ?: emptyList()
+                    searchPhrase = ""
+                    filterCategory = "Desserts"
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.LightGray, // Fondo gris clarito
@@ -240,7 +246,8 @@ fun HomeScreen(
             Spacer(modifier = Modifier.width(16.dp))
             Button(
                 onClick = {
-                    orderMenuItems = databaseMenuItems?.sortedBy { it.title } ?: emptyList()
+                    searchPhrase = ""
+                    filterCategory = "Drinks"
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.LightGray, // Fondo gris clarito
@@ -250,6 +257,25 @@ fun HomeScreen(
             ) {
                 Text(
                     text = "Drinks",
+                    fontWeight = FontWeight.Bold, // Texto en negrita (bold)
+                    fontSize = 16.sp,
+                    color = Color.DarkGray // Asegura que el color del texto sea gris oscuro
+                )
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+            Button(
+                onClick = {
+                    searchPhrase = ""
+                    filterCategory = ""
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.LightGray, // Fondo gris clarito
+                    contentColor = Color.DarkGray // Color del texto (gris oscuro)
+                ),
+                modifier = Modifier.padding(0.dp),
+            ) {
+                Text(
+                    text = "All",
                     fontWeight = FontWeight.Bold, // Texto en negrita (bold)
                     fontSize = 16.sp,
                     color = Color.DarkGray // Asegura que el color del texto sea gris oscuro
@@ -270,14 +296,25 @@ fun HomeScreen(
             databaseMenuItems ?: emptyList()
         }
 
-        if (searchPhrase.isEmpty()) {
+        if (searchPhrase.isEmpty() and filterCategory.isEmpty()) {
             MenuItemsList(items = menuItems)
         } else {
-            menuItems.filter {
-                it.title.lowercase(Locale.getDefault()).contains(
-                    searchPhrase.lowercase(Locale.getDefault())
-                )
-            }.let { MenuItemsList(items = it) }
+            if (searchPhrase.isNotEmpty()) {
+                menuItems.filter {
+                    it.title.lowercase(Locale.getDefault()).contains(
+                        searchPhrase.lowercase(Locale.getDefault())
+                    )
+                }.let { MenuItemsList(items = it) }
+            }
+
+            if (filterCategory.isNotEmpty()) {
+                menuItems.filter {
+                    it.category.lowercase(Locale.getDefault()) == filterCategory.lowercase(
+                        Locale.getDefault()
+                    )
+                }.let { MenuItemsList(items = it) }
+            }
+
         }
     }
 
@@ -290,18 +327,26 @@ private fun MenuItemsList(items: List<MenuItemRoom>) {
 //            .fillMaxHeight()
 //            .padding(top = 20.dp)
     ) {
+        
+        item { 
+            if (items.isEmpty()) {
+                Text(text = "No data")
+            }
+        }
 
         items(
             items = items,
             itemContent = { menuItem ->
-                Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)){
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                ) {
                     Text(text = menuItem.title, fontWeight = FontWeight.Bold)
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Column(modifier = Modifier.weight(2f)) {
                             Text(text = menuItem.description)
-                            Text(text = "$${menuItem.price}" )
+                            Text(text = "$${menuItem.price}")
                         }
                         Spacer(modifier = Modifier.width(2.dp))
 //                        Text(text = menuItem.image)
@@ -321,19 +366,6 @@ private fun MenuItemsList(items: List<MenuItemRoom>) {
                         color = Color.LightGray // Color de la línea
                     )
                 }
-//                Row(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    verticalAlignment = Alignment.CenterVertically,
-//                ) {
-//                    Text(menuItem.title)
-//                    Text(
-//                        modifier = Modifier
-//                            .weight(1f)
-//                            .padding(5.dp),
-//                        textAlign = TextAlign.Right,
-//                        text = "%.2f".format(menuItem.price)
-//                    )
-//                }
             }
         )
     }
