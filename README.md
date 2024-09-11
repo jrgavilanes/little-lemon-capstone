@@ -1,5 +1,6 @@
 # App Capstone for Meta Android Developer Professional Certificate
 
+<img src="MOCKUP.png">
 
 Course syllabus
 Introduction
